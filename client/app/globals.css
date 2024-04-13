@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+video {
+  transform: rotateY(180deg);
+  height: 250px;
+  width: 320px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  object-fit: cover;
+}
