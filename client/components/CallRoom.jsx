@@ -122,7 +122,7 @@ const CallRoom = ({ roomid }) => {
             console.log("some error");
             // peerRef.current.on("open", () => {
             console.log("peer.id", peerRef.current.id);
-            socket.emit("join_room", roomid, peerRef.current.id);
+            // socket.emit("join_room", roomid, peerRef.current.id);
             // });
           });
           peerRef.current.on("call", (call) => {
