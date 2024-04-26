@@ -16,9 +16,17 @@ const CallRoom = ({ roomid }) => {
     socket.on("connect", () => {
       console.log(socket.id);
       const peer = new Peer(socket.id);
-      // peer.on("open", () => {
-      //   console.log("peer.id", peer.id);
-      // });
+      peer.on("open", () => {
+        //   console.log("peer.id", peer.id);
+        socket.on("user_left", (pid) => {
+          if (otherusers[pid]) {
+            otherusers[pid].close();
+            delete otherusers[pid];
+          }
+        });
+        peerRef.current = peer;
+        playVideo();
+      });
       // peer.on("error", () => {
       //   console.log("error");
       //   peer.on("open", () => {
@@ -26,14 +34,6 @@ const CallRoom = ({ roomid }) => {
       //     socket.emit("join_room", roomid, peer.id);
       //   });
       // });
-      socket.on("user_left", (pid) => {
-        if (otherusers[pid]) {
-          otherusers[pid].close();
-          delete otherusers[pid];
-        }
-      });
-      peerRef.current = peer;
-      playVideo();
     });
 
     return () => {
@@ -122,7 +122,7 @@ const CallRoom = ({ roomid }) => {
             console.log("some error");
             // peerRef.current.on("open", () => {
             console.log("peer.id", peerRef.current.id);
-            // socket.emit("join_room", roomid, peerRef.current.id);
+            socket.emit("join_room", roomid, peerRef.current.id);
             // });
           });
           peerRef.current.on("call", (call) => {
